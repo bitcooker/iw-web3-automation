@@ -15,7 +15,7 @@ const config = createConfig({
 
 const Navbar = () => {
   return (
-    <div className='fixed w-full z-10 bg-white drop-shadow-md'>
+    <div className='w-full z-10 bg-white drop-shadow-md'>
       <div className='py-4'>
         <Container>
           <div className='flex justify-between'>
