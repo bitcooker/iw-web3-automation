@@ -29,7 +29,7 @@ export default function Strategy1() {
       return;
     }
     const reOrderedItems = reorder(
-      preTransactions,
+      transactions,
       result.source.index,
       result.destination.index
     );

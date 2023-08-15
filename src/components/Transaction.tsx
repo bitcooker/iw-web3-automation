@@ -77,14 +77,14 @@ const Transaction: React.FC<ITransaction> = ({
             className={`p-3 border bg-white rounded-lg ${
               snapshot.isDragging ? 'shadow-lg' : 'shadow-sm'
             } transition-all ${
-              isEditMode ? 'border-[2px] border-gray-400' : 'border'
+              isEditMode ? 'border-[2px] border-gray-600' : 'border'
             }`}
           >
             <form
               onSubmit={handleSubmit(onSubmit)}
               className='flex flex-col lg:flex-row lg:justify-between items-center'
             >
-              <div className='flex flex-grow items-start'>
+              <div className='flex flex-grow'>
                 <div className='form-control w-full max-w-xs m-1'>
                   <label className='label'>
                     <span
@@ -105,8 +105,8 @@ const Transaction: React.FC<ITransaction> = ({
                     />
                   ) : (
                     <a
-                      target={'_blank'}
                       href={transaction.platform}
+                      target='_blank'
                       className='flex px-1 h-full items-center hover:text-blue-500'
                     >
                       {transaction.platform}
@@ -147,17 +147,14 @@ const Transaction: React.FC<ITransaction> = ({
                 <div className='m-1'>
                   <div className='flex w-full'>
                     <div className='form-control w-full max-w-[200px] mx-1'>
-                      {actionType != Actions.Nft && (
-                        <label className='label'>
-                          <span className='label-text'>Token</span>
-                        </label>
-                      )}
+                      <label className='label'>
+                        <span className='label-text'>Token</span>
+                      </label>
                       {isEditMode ? (
                         <select
                           defaultValue={transaction.token}
                           {...register('token')}
                           className='select select-bordered w-full max-w-[200px]'
-                          disabled={actionType == Actions.Nft}
                         >
                           {Object.keys(Tokens).map((_key) => (
                             <option
@@ -170,26 +167,22 @@ const Transaction: React.FC<ITransaction> = ({
                           ))}
                         </select>
                       ) : (
-                        actionType != Actions.Nft && (
-                          <span className='flex px-1 h-full items-center'>
-                            {transaction.token}
-                          </span>
-                        )
+                        <span className='flex px-1 h-full items-center'>
+                          {transaction.token}
+                        </span>
                       )}
                     </div>
 
                     <div className='form-control w-full max-w-[200px] mx-1'>
-                      {actionType != Actions.Nft && (
-                        <label className='label'>
-                          <span
-                            className={`label-text ${
-                              errors.amount && 'text-red-500'
-                            }`}
-                          >
-                            Amount
-                          </span>
-                        </label>
-                      )}
+                      <label className='label'>
+                        <span
+                          className={`label-text ${
+                            errors.amount && 'text-red-500'
+                          }`}
+                        >
+                          Amount
+                        </span>
+                      </label>
                       {isEditMode ? (
                         <input
                           defaultValue={transaction.amount}
@@ -200,31 +193,25 @@ const Transaction: React.FC<ITransaction> = ({
                           type='number'
                           step={0.01}
                           className='input input-bordered w-full'
-                          disabled={actionType == Actions.Nft}
                         />
                       ) : (
-                        actionType != Actions.Nft && (
-                          <span className='flex px-1 h-full items-center '>
-                            {transaction.amount}
-                          </span>
-                        )
+                        <span className='flex px-1 h-full items-center '>
+                          {transaction.amount}
+                        </span>
                       )}
                     </div>
                   </div>
 
                   <div className='flex w-full mt-3'>
                     <div className='form-control w-full max-w-[200px] mx-1'>
-                      {actionType == Actions.Liquidity && (
-                        <label className='label'>
-                          <span className='label-text'>Token</span>
-                        </label>
-                      )}
+                      <label className='label'>
+                        <span className='label-text'>Token</span>
+                      </label>
                       {isEditMode ? (
                         <select
                           defaultValue={transaction.token2}
                           {...register('token2')}
                           className='select select-bordered w-full max-w-[200px]'
-                          disabled={actionType != Actions.Liquidity}
                         >
                           {Object.keys(Tokens).map((_key) => (
                             <option
@@ -237,26 +224,22 @@ const Transaction: React.FC<ITransaction> = ({
                           ))}
                         </select>
                       ) : (
-                        actionType == Actions.Liquidity && (
-                          <span className='flex px-1 h-full items-center'>
-                            {transaction.token2}
-                          </span>
-                        )
+                        <span className='flex px-1 h-full items-center'>
+                          {transaction.token2}
+                        </span>
                       )}
                     </div>
 
                     <div className='form-control w-full max-w-[200px] mx-1'>
-                      {actionType == Actions.Liquidity && (
-                        <label className='label'>
-                          <span
-                            className={`label-text ${
-                              errors.amount2 && 'text-red-500'
-                            }`}
-                          >
-                            Amount
-                          </span>
-                        </label>
-                      )}
+                      <label className='label'>
+                        <span
+                          className={`label-text ${
+                            errors.amount2 && 'text-red-500'
+                          }`}
+                        >
+                          Amount
+                        </span>
+                      </label>
                       {isEditMode ? (
                         <input
                           defaultValue={transaction.amount2}
@@ -267,14 +250,11 @@ const Transaction: React.FC<ITransaction> = ({
                           type='number'
                           step={0.01}
                           className='input input-bordered w-full'
-                          disabled={actionType != Actions.Liquidity}
                         />
                       ) : (
-                        actionType == Actions.Liquidity && (
-                          <span className='flex px-1 h-full items-center '>
-                            {transaction.amount2}
-                          </span>
-                        )
+                        <span className='flex px-1 h-full items-center '>
+                          {transaction.amount2}
+                        </span>
                       )}
                     </div>
                   </div>
