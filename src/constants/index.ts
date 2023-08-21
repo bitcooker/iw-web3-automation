@@ -1,4 +1,5 @@
 import { Actions, Tokens, TransactionType } from '@/types';
+import { ZKSYNC_ABI } from './abis';
 
 export const strategy1: TransactionType[] = [
     {
@@ -7,6 +8,9 @@ export const strategy1: TransactionType[] = [
         amount: 100,
         token: Tokens.ETH,
         platform: 'http://bridge.zksync.io/',
+        contractAddress: '0x3ef9ab6119bf07435151cbb626a13df1e62ce33a70f95a1d9fee0c78fbac74a9',
+        functionName: 'deposit',
+        abi: ZKSYNC_ABI,
         amount2: 1,
         token2: Tokens.ETH
     },

@@ -1,9 +1,9 @@
-import React from 'react';
-import Container from '@/components/Container';
-import Profile from './Profile';
+import React from "react";
+import Container from "@/components/Container";
+import Profile from "./Profile";
 
-import { WagmiConfig, createConfig, mainnet } from 'wagmi';
-import { createPublicClient, http } from 'viem';
+import { WagmiConfig, createConfig, mainnet } from "wagmi";
+import { createPublicClient, http } from "viem";
 
 const config = createConfig({
   autoConnect: true,
@@ -15,13 +15,13 @@ const config = createConfig({
 
 const Navbar = () => {
   return (
-    <div className='w-full z-10 bg-white drop-shadow-md'>
-      <div className='py-4'>
+    <div className="w-full z-10 bg-white drop-shadow-md">
+      <div className="py-4">
         <Container>
-          <div className='flex justify-between'>
-            <a href='/'>
-              <div className='text-[32px] font-bold text-gray-600'>
-                EasyToken
+          <div className="flex justify-between">
+            <a href="/">
+              <div className="text-[32px] font-bold text-gray-600">
+                IW Web3 Automation
               </div>
             </a>
 

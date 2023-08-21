@@ -261,7 +261,7 @@ const Transaction: React.FC<ITransaction> = ({
                 </div>
               </div>
 
-              {isHover && !isEditMode && (
+              {isHover && editId == null && (
                 <div className='flex mt-3 lg:mt-0'>
                   <button
                     onClick={() => {

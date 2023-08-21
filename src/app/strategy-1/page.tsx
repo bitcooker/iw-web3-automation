@@ -1,10 +1,12 @@
-'use client';
-import React, { useCallback, useState, useEffect } from 'react';
-import { v4 as uuid4 } from 'uuid';
-import { DragDropContext, DropResult, Droppable } from 'react-beautiful-dnd';
-import { Actions, Tokens, TransactionType } from '@/types';
-import Transaction from '@/components/Transaction';
-import { strategy1 } from '@/constants/index';
+"use client";
+import React, { useCallback, useState, useEffect } from "react";
+import { v4 as uuid4 } from "uuid";
+import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
+import { Actions, Tokens, TransactionType } from "@/types";
+import Transaction from "@/components/Transaction";
+import { strategy1 } from "@/constants/index";
+import useWalletStore from "@/hooks";
+import { useAccount } from "wagmi";
 
 export default function Strategy1() {
   const [transactions, setTransactions] =
@@ -38,6 +40,8 @@ export default function Strategy1() {
     setTransactions(reOrderedItems);
   };
 
+  const onStartTransaction = () => {};
+
   const onNewTransactionClick = () => {
     const newId = uuid4();
     setPreTransactions([
@@ -47,7 +51,7 @@ export default function Strategy1() {
         action: Actions.Buy,
         amount: 1,
         token: Tokens.USDC,
-        platform: '',
+        platform: "",
         amount2: 1,
         token2: Tokens.USDC,
       },
@@ -82,6 +86,7 @@ export default function Strategy1() {
   };
 
   const onDelete = (_transaction: TransactionType) => {
+    ``;
     const _index = transactions.findIndex((t) => t.id == _transaction.id);
     const newTransactions = [
       ...transactions.slice(0, _index),
@@ -91,21 +96,22 @@ export default function Strategy1() {
     setPreTransactions(newTransactions);
   };
 
+  const walletStore = useWalletStore();
   return (
     <div>
-      <div className='overflow-x-auto max-w-[1366px] mx-auto m-5'>
-        <div className='flex w-full justify-end'>
+      <div className="overflow-x-auto max-w-[1366px] mx-auto m-5">
+        <div className="flex w-full justify-end">
           <button
-            className='btn btn-outline btn-info'
+            className="btn btn-outline btn-info"
             onClick={onNewTransactionClick}
             disabled={editId != null}
           >
             New Transaction
           </button>
         </div>
-        <div className='mt-3'>
+        <div className="mt-3">
           <DragDropContext onDragEnd={onTransactionDragEnd}>
-            <Droppable droppableId='transactions-list'>
+            <Droppable droppableId="transactions-list">
               {(provided, snapshot) => (
                 <div ref={provided.innerRef} {...provided.droppableProps}>
                   {preTransactions.map((_transaction, index) => (
@@ -126,6 +132,13 @@ export default function Strategy1() {
             </Droppable>
           </DragDropContext>
         </div>
+        <button
+          onClick={onStartTransaction}
+          className="btn btn-success w-full my-6"
+          disabled={walletStore.address == ""}
+        >
+          {walletStore.address == "" ? "Connect wallet to run." : "Run"}
+        </button>
       </div>
     </div>
   );

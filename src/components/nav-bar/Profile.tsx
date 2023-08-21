@@ -1,9 +1,10 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { clamp } from '@/utils/clamp';
+import useWalletStore from '@/hooks';
 
 const Profile = () => {
   const { address, isConnected } = useAccount();
@@ -11,6 +12,16 @@ const Profile = () => {
     connector: new InjectedConnector(),
   });
   const { disconnect } = useDisconnect();
+  const walletStore = useWalletStore();
+
+  useEffect(() => {
+    if (isConnected) {
+      walletStore.setAddress(address!);
+    } else {
+      walletStore.setAddress('');
+    }
+  }, [isConnected]);
+
   return (
     <div className='flex items-center'>
       {isConnected ? (
@@ -28,7 +39,13 @@ const Profile = () => {
             className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52 mt-1 border'
           >
             <li>
-              <a onClick={() => disconnect()}>Disconnect</a>
+              <a
+                onClick={() => {
+                  disconnect();
+                }}
+              >
+                Disconnect
+              </a>
             </li>
           </ul>
         </div>
