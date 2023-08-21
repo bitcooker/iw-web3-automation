@@ -1,16 +1,14 @@
-'use client';
+import "./globals.css";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import Navbar from "@/components/nav-bar/Navbar";
+import ClientOnly from "@/components/ClientOnly";
 
-import './globals.css';
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
-import Navbar from '@/components/nav-bar/Navbar';
-import ClientOnly from '@/components/ClientOnly';
-
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Easy Token',
-  description: 'App for automating some web3 operations.',
+  title: "Easy Token",
+  description: "App for automating some web3 operations.",
 };
 
 export default function RootLayout({
@@ -19,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en'>
+    <html lang="en">
       <head></head>
       <body className={inter.className}>
         <ClientOnly>
