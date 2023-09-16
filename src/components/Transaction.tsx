@@ -150,7 +150,10 @@ const Transaction: React.FC<ITransaction> = ({
                       <label className='label'>
                         <span className='label-text'>Token</span>
                       </label>
-                      {isEditMode ? (
+                      <span className='flex px-1 h-full items-center'>
+                          {transaction.token}
+                        </span>
+                      {/* {isEditMode ? (
                         <select
                           defaultValue={transaction.token}
                           {...register('token')}
@@ -170,7 +173,7 @@ const Transaction: React.FC<ITransaction> = ({
                         <span className='flex px-1 h-full items-center'>
                           {transaction.token}
                         </span>
-                      )}
+                      )} */}
                     </div>
 
                     <div className='form-control w-full max-w-[200px] mx-1'>
@@ -207,7 +210,10 @@ const Transaction: React.FC<ITransaction> = ({
                       <label className='label'>
                         <span className='label-text'>Token</span>
                       </label>
-                      {isEditMode ? (
+                      <span className='flex px-1 h-full items-center'>
+                          {transaction.token2}
+                        </span>
+                      {/* {isEditMode ? (
                         <select
                           defaultValue={transaction.token2}
                           {...register('token2')}
@@ -227,7 +233,7 @@ const Transaction: React.FC<ITransaction> = ({
                         <span className='flex px-1 h-full items-center'>
                           {transaction.token2}
                         </span>
-                      )}
+                      )} */}
                     </div>
 
                     <div className='form-control w-full max-w-[200px] mx-1'>

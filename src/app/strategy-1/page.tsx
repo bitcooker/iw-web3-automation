@@ -8,6 +8,13 @@ import Transaction from "@/components/Transaction";
 import { strategy1 } from "@/constants/index";
 import useWalletStore from "@/hooks";
 import { useAccount } from "wagmi";
+import {depositETH} from "../../api/depositETH";
+import {syncUsdcSwap, addliquidity} from "../../api/syncswap";
+import {muteUsdcSwap} from "../../api/mute";
+import {mavUsdcSwap} from "../../api/maverick";
+import {depositBorrow} from "../../api/reactorfusion";
+// import {ethers} from "ethers";
+// import * as zksync from "zksync-web3";
 
 export default function Strategy1() {
   const [transactions, setTransactions] =
@@ -27,6 +34,9 @@ export default function Strategy1() {
     return result;
   };
 
+  // todo connect wallet
+  const privateKey = "";
+
   const onTransactionDragEnd = (result: DropResult) => {
     if (!result.destination) {
       return;
@@ -41,7 +51,28 @@ export default function Strategy1() {
     setTransactions(reOrderedItems);
   };
 
-  const onStartTransaction = () => {};
+  const onStartTransaction = async () => {
+    console.log("starting deposit to zksync");
+    // const result0 = await depositETH(privateKey, transactions[0].amount);
+
+    // console.log("syncswap start");
+    // const result1 = await syncUsdcSwap(privateKey, transactions[1].amount);
+    // console.log(result1, transactions[1].amount);
+
+    // console.log("mute swap start");
+    // const result2 = await muteUsdcSwap(privateKey, transactions[2].amount);
+    // console.log(result2, transactions[2].amount);
+    
+    // console.log("maverick swap start")
+    // const result3 = await mavUsdcSwap(privateKey, transactions);
+    // console.log(result3, transactions[3].amount);
+    
+    // console.log("syncswap provide liquidity");
+    // const result4 = await addliquidity(privateKey, transactions[4].amount, transactions[4].amount2);
+    // console.log(result4, transactions[4].amount, transactions[4].amount2);
+    
+    // await depositBorrow(privateKey, transactions[5].amount, transactions[6].amount); 
+  };
 
   const onNewTransactionClick = () => {
     const newId = uuid4();

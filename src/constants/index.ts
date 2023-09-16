@@ -7,11 +7,8 @@ export const strategy1: TransactionType[] = [
         action: Actions.Bridge,
         amount: 100,
         token: Tokens.ETH,
-        platform: 'http://bridge.zksync.io/',
-        contractAddress: '0x3ef9ab6119bf07435151cbb626a13df1e62ce33a70f95a1d9fee0c78fbac74a9',
-        functionName: 'deposit',
-        abi: ZKSYNC_ABI,
-        amount2: 1,
+        platform: 'http://bridge.zksync.io/', // todo remove
+        amount2: 1, // todo remove
         token2: Tokens.ETH
     },
     {
@@ -46,7 +43,7 @@ export const strategy1: TransactionType[] = [
         action: Actions.Liquidity,
         amount: 15,
         token: Tokens.USDC,
-        platform: 'https://app.mav.xyz/pools?chain=324',
+        platform: 'http://syncswap.xyz/',
         amount2: 15,
         token2: Tokens.ETH
     },
@@ -65,15 +62,6 @@ export const strategy1: TransactionType[] = [
         amount: 3,
         token: Tokens.USDT,
         platform: 'https://app.reactorfusion.xyz/',
-        amount2: 1,
-        token2: Tokens.ETH
-    },
-    {
-        id: '8',
-        action: Actions.Nft,
-        amount: 1,
-        token: Tokens.USDC,
-        platform: 'https://element.market/zksync',
         amount2: 1,
         token2: Tokens.ETH
     },
