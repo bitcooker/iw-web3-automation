@@ -6,7 +6,7 @@ import {USDC, WETH} from "../constants"
 import routerAbi  from "../constants/abi/mute/Router.json";
 import factoryAbi from "../constants/abi/mute/Factory.json";
 
-export const muteUsdcSwap = async function (privateKey, amount) {
+export const muteUsdcSwap = async function (wallet, amount) {
     const addresses = {
         WETH: WETH,
         USDC: USDC,
@@ -14,12 +14,14 @@ export const muteUsdcSwap = async function (privateKey, amount) {
         factory: '0x40be1cba6c5b47cdf9da7f963b6f761f4c60627d'
     }
 
+    const address = await wallet.getAddress();
+
     const zkSyncProvider = new zksync.Provider("https://zksync-era.blockpi.network/v1/rpc/public");
     const ethProvider = ethers.getDefaultProvider();
 
     const mygasPrice = ethers.utils.parseUnits('5', 'gwei');
 
-    const wallet = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider);
+    // const wallet = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider);
 
     const router = new ethers.Contract(
         addresses.router,
@@ -53,7 +55,7 @@ export const muteUsdcSwap = async function (privateKey, amount) {
         const tx = await router.swapExactETHForTokens(
             amountOutMin,
             [tokenIn, tokenOut],
-            wallet.address,
+            address,
             Math.floor(Date.now() / 1000) + 60 * 30, // 20 minutes from the current Unix time
             [true, true],
             {

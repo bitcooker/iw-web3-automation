@@ -4,11 +4,13 @@ import {USDC, WETH} from "../constants"
 import routerAbi  from "../constants/abi//mav/Router.json";
 const routerAddress = "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4";
 
-export const mavUsdcSwap = async function(privateKey, amount) {
+export const mavUsdcSwap = async function(signer, amount) {
     const zkSyncProvider = new zksync.Provider("https://zksync-era.blockpi.network/v1/rpc/public");
     const ethProvider = ethers.getDefaultProvider();
 
-    const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider);
+    // const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider);
+
+    const address = await signer.getAddress();
 
     const router = new ethers.Contract(
         routerAddress,
@@ -29,7 +31,7 @@ export const mavUsdcSwap = async function(privateKey, amount) {
         tokenIn: WETH,
         tokenOut: USDC,
         pool: '0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab',
-        recipient: signer.address,
+        recipient: address,
         deadline: 1e13,
         amountIn: amountIn,
         amountOutMinimum: 0,

@@ -6,6 +6,7 @@ import classicPoolFactoryAbi from '../constants/abi/SyncSwap/SyncSwapClassicPool
 import classicPoolAbi from "../constants/abi/SyncSwap/SyncSwapClassicPool.json";
 import routerAbi from "../constants/abi/SyncSwap/SyncSwapRouterABI.json";
 import WETHAbi from "../constants/abi/WETHAbi.json"
+import { sign } from "crypto";
 
 const wETHAddress = WETH;
 const usdcAddress = USDC;
@@ -16,8 +17,8 @@ const classicPoolFactoryAddress = "0xf2DAd89f2788a8CD54625C60b55cD3d2D0ACa7Cb";
 const zkSyncProvider = new zksync.Provider("https://zksync-era.blockpi.network/v1/rpc/public");
 const ethProvider = ethers.getDefaultProvider();
 
-export const syncUsdcSwap = async function (privateKey, amount) {
-  const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider)
+export const syncUsdcSwap = async function (signer, amount) {
+  // const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider)
 
   const _ethBalance = await signer.getBalance();
   const ethBalance = ethers.utils.formatEther(_ethBalance);
@@ -26,7 +27,6 @@ export const syncUsdcSwap = async function (privateKey, amount) {
   let amountIn = 0;
 
   tokenInAddress = wETHAddress;
-  // amount = ethers.utils.parseEther(amountStr);
 
   const classicPoolFactory = new zksync.Contract(
     classicPoolFactoryAddress,
@@ -35,6 +35,7 @@ export const syncUsdcSwap = async function (privateKey, amount) {
   );
 
   const poolAddress = await classicPoolFactory.getPool(wETHAddress, usdcAddress);
+  console.log(poolAddress);
 
   // Checks whether the pool exists.
   if (poolAddress === ethers.constants.AddressZero) {
@@ -54,9 +55,12 @@ export const syncUsdcSwap = async function (privateKey, amount) {
 
   const withdrawMode = 1; // 1 or 2 to withdraw to user's wallet
 
+  const address = await signer.getAddress();
+  console.log(address);
+
   const swapData = ethers.utils.defaultAbiCoder.encode(
     ["address", "address", "uint8"],
-    [tokenInAddress, signer.address, withdrawMode], // tokenIn, to, withdraw mode
+    [tokenInAddress, address, withdrawMode], // tokenIn, to, withdraw mode
   );
 
   const steps = [{
@@ -73,7 +77,7 @@ export const syncUsdcSwap = async function (privateKey, amount) {
     amountIn: amountIn,
   }];
 
-  // console.log('amount', amountIn)
+  console.log('amount', amountIn)
 
   const router = new zksync.Contract(routerAddress, routerAbi, signer);
 
@@ -87,12 +91,14 @@ export const syncUsdcSwap = async function (privateKey, amount) {
   );
 
   let tx = await response.wait();
-  // console.log(tx.transactionHash);
+  console.log(tx.transactionHash);
   return tx.transactionHash;
 }
 
-export const addliquidity = async function (privateKey, amount1, amount2) {
-  const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider)
+export const addliquidity = async function (signer, amount1, amount2) {
+  // const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider)
+
+  const address = await signer.getAddress();
 
   const wETHContract = new zksync.Contract(wETHAddress, WETHAbi, signer);
   const wethDeposit = await wETHContract.deposit(
@@ -114,7 +120,7 @@ export const addliquidity = async function (privateKey, amount1, amount2) {
   const ethBalance = ethers.utils.formatEther(_ethBalance);
   // console.log(ethBalance);
 
-  const _usdcBalance = await usdcContract.balanceOf(signer.address);
+  const _usdcBalance = await usdcContract.balanceOf(address);
   const usdcBalance = ethers.utils.formatUnits(_usdcBalance, 6);
   // console.log(usdcBalance);
 
@@ -147,7 +153,7 @@ export const addliquidity = async function (privateKey, amount1, amount2) {
 
   const router = new zksync.Contract(routerAddress, routerAbi, signer);
 
-  const data = ethers.utils.defaultAbiCoder.encode(['address'], [signer.address]);
+  const data = ethers.utils.defaultAbiCoder.encode(['address'], [address]);
 
   const tokenInputs = [
     {

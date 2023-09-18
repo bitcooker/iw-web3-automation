@@ -11,11 +11,11 @@ const {
     erc20Abi,
 } = require('../constants/abi/reactorfusion/contracts.json');
 
-export const depositBorrow = async (privateKey, amount1, amount2) => {
+export const depositBorrow = async (wallet, amount1, amount2) => {
 
     // Your Ethereum wallet private key
-    const wallet = new zksync.Wallet(privateKey, provider, ethProvider);
-    const myWalletAddress = wallet.address;
+    // const wallet = new zksync.Wallet(privateKey, provider, ethProvider);
+    const myWalletAddress = await wallet.getAddress();
 
     // Mainnet Contract for cETH (the collateral-supply process is different for cERC20 tokens)
     const rfEthAddress = '0xC5db68F30D21cBe0C9Eac7BE5eA83468d69297e6';
