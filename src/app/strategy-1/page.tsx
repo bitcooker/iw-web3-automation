@@ -71,8 +71,8 @@ export default function Strategy1() {
     //   transactionIDs.push(element.id);
     // });
 
-    // console.log("starting deposit to zksync");
-    // const result0 = await depositETH(signer, transactions[0].amount);
+    console.log("starting deposit to zksync");
+    const result0 = await depositETH(signer, transactions[0].amount);
 
     console.log("syncswap start");
     const result1 = await syncUsdcSwap(signer, transactions[1].amount);
@@ -86,11 +86,11 @@ export default function Strategy1() {
     const result3 = await mavUsdcSwap(signer, transactions[3].amount);
     console.log(result3, transactions[3].amount);
 
-    // console.log("syncswap provide liquidity");
-    // const result4 = await addliquidity(signer, transactions[4].amount, transactions[4].amount2);
-    // console.log(result4, transactions[4].amount, transactions[4].amount2);
+    console.log("syncswap provide liquidity");
+    const result4 = await addliquidity(signer, transactions[4].amount, transactions[4].amount2);
+    console.log(result4, transactions[4].amount, transactions[4].amount2);
 
-    // await depositBorrow(signer, transactions[5].amount, transactions[6].amount); 
+    await depositBorrow(signer, transactions[5].amount, transactions[6].amount); 
   };
 
   const onNewTransactionClick = () => {
