@@ -29,12 +29,17 @@ export const depositETH = async function (privateKey, amount) {
     }
 
     console.log("depositing...");
-    const depositHandle = await zkSyncWallet.deposit({
-        token: zksync.utils.ETH_ADDRESS,
-        amount: ethers.utils.parseEther(amountIn.toFixed(6)),
-    });
-    console.log(`Deposit transaction sent ${depositHandle.hash}`);
-    console.log(`Waiting for deposit to be processed in L2...`);
-    await depositHandle.wait();
-    console.log(deposit);
+    try {
+        const depositHandle = await zkSyncWallet.deposit({
+            token: zksync.utils.ETH_ADDRESS,
+            amount: ethers.utils.parseEther(amountIn.toFixed(6)),
+        });
+        console.log(`Deposit transaction sent ${depositHandle.hash}`);
+        console.log(`Waiting for deposit to be processed in L2...`);
+        await depositHandle.wait();
+        console.log(deposit);
+    }
+    catch {
+        return false;
+    }
 }

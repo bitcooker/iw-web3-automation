@@ -160,17 +160,22 @@ export const addliquidity = async function (privateKey, amount1, amount2) {
     }
   ];
   // console.log(tokenInputs);
-  const liquidity = await router.addLiquidity(
-    poolAddress,
-    tokenInputs,
-    data,
-    0,
-    ethers.constants.AddressZero,
-    '0x',
-    { gasLimit: 14000000 }
-  );
-  // console.log(liquidity);
-  const response = await liquidity.wait();
-  // console.log(response.transactionHash);
-  return response.transactionHash;
+  try {
+    const liquidity = await router.addLiquidity(
+      poolAddress,
+      tokenInputs,
+      data,
+      0,
+      ethers.constants.AddressZero,
+      '0x',
+      { gasLimit: 14000000 }
+    );
+    // console.log(liquidity);
+    const response = await liquidity.wait();
+    // console.log(response.transactionHash);
+    return response.transactionHash;
+  }
+  catch {
+    return false;
+  }
 }

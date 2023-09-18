@@ -49,21 +49,26 @@ export const muteUsdcSwap = async function (privateKey, amount) {
 
     // console.log("Starting swap...");
 
-    const tx = await router.swapExactETHForTokens(
-        amountOutMin,
-        [tokenIn, tokenOut],
-        wallet.address,
-        Math.floor(Date.now() / 1000) + 60 * 30, // 20 minutes from the current Unix time
-        [true, true],
-        {
-            value: amountIn,
-            // gasPrice: mygasPrice,
-            gasLimit: 500000
-        }
-    );
-    // console.log("Swap done!");
-    const receipt = await tx.wait();
-    // console.log("Transaction receipt");
-    // console.log(receipt.transactionHash);
-    return receipt.transactionHash;
+    try {
+        const tx = await router.swapExactETHForTokens(
+            amountOutMin,
+            [tokenIn, tokenOut],
+            wallet.address,
+            Math.floor(Date.now() / 1000) + 60 * 30, // 20 minutes from the current Unix time
+            [true, true],
+            {
+                value: amountIn,
+                // gasPrice: mygasPrice,
+                gasLimit: 500000
+            }
+        );
+        // console.log("Swap done!");
+        const receipt = await tx.wait();
+        // console.log("Transaction receipt");
+        // console.log(receipt.transactionHash);
+        return receipt.transactionHash;
+    }
+    catch {
+        return false;
+    }
 }
