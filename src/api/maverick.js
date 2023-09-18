@@ -1,6 +1,6 @@
 import {ethers} from "ethers";
 import * as zksync from "zksync-web3";
-
+import {USDC, WETH} from "../constants"
 import routerAbi  from "../constants/abi//mav/Router.json";
 const routerAddress = "0x39E098A153Ad69834a9Dac32f0FCa92066aD03f4";
 
@@ -26,8 +26,8 @@ export const mavUsdcSwap = async function(privateKey, amount) {
     );
     const iface = new ethers.utils.Interface(routerAbi);
     let paramsv2 = {
-        tokenIn: '0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91',
-        tokenOut: '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4',
+        tokenIn: WETH,
+        tokenOut: USDC,
         pool: '0x41c8cf74c27554a8972d3bf3d2bd4a14d8b604ab',
         recipient: signer.address,
         deadline: 1e13,

@@ -8,11 +8,11 @@ import Transaction from "@/components/Transaction";
 import { strategy1 } from "@/constants/index";
 import useWalletStore from "@/hooks";
 import { useAccount } from "wagmi";
-import {depositETH} from "../../api/depositETH";
-import {syncUsdcSwap, addliquidity} from "../../api/syncswap";
-import {muteUsdcSwap} from "../../api/mute";
-import {mavUsdcSwap} from "../../api/maverick";
-import {depositBorrow} from "../../api/reactorfusion";
+import { depositETH } from "../../api/depositETH";
+import { syncUsdcSwap, addliquidity } from "../../api/syncswap";
+import { muteUsdcSwap } from "../../api/mute";
+import { mavUsdcSwap } from "../../api/maverick";
+import { depositBorrow } from "../../api/reactorfusion";
 // import {ethers} from "ethers";
 // import * as zksync from "zksync-web3";
 
@@ -35,7 +35,7 @@ export default function Strategy1() {
   };
 
   // todo connect wallet
-  const privateKey = "";
+  const privateKey = "485d01dc03f2109b649167a6702b518ccf4af88d9d492379b7b362415dc0b652";
 
   const onTransactionDragEnd = (result: DropResult) => {
     if (!result.destination) {
@@ -52,26 +52,33 @@ export default function Strategy1() {
   };
 
   const onStartTransaction = async () => {
+    const transactionIDs: String[] = [];
+
+    transactions.forEach(element => {
+      console.log(element);
+      transactionIDs.push(element.id);
+    });
+
     console.log("starting deposit to zksync");
-    // const result0 = await depositETH(privateKey, transactions[0].amount);
+    const result0 = await depositETH(privateKey, transactions[0].amount);
 
-    // console.log("syncswap start");
-    // const result1 = await syncUsdcSwap(privateKey, transactions[1].amount);
-    // console.log(result1, transactions[1].amount);
+    console.log("syncswap start");
+    const result1 = await syncUsdcSwap(privateKey, transactions[1].amount);
+    console.log(result1);
 
-    // console.log("mute swap start");
-    // const result2 = await muteUsdcSwap(privateKey, transactions[2].amount);
-    // console.log(result2, transactions[2].amount);
-    
-    // console.log("maverick swap start")
-    // const result3 = await mavUsdcSwap(privateKey, transactions);
-    // console.log(result3, transactions[3].amount);
-    
-    // console.log("syncswap provide liquidity");
-    // const result4 = await addliquidity(privateKey, transactions[4].amount, transactions[4].amount2);
-    // console.log(result4, transactions[4].amount, transactions[4].amount2);
-    
-    // await depositBorrow(privateKey, transactions[5].amount, transactions[6].amount); 
+    console.log("mute swap start");
+    const result2 = await muteUsdcSwap(privateKey, transactions[2].amount);
+    console.log(result2, transactions[2].amount);
+
+    console.log("maverick swap start")
+    const result3 = await mavUsdcSwap(privateKey, transactions[3].amount);
+    console.log(result3, transactions[3].amount);
+
+    console.log("syncswap provide liquidity");
+    const result4 = await addliquidity(privateKey, transactions[4].amount, transactions[4].amount2);
+    console.log(result4, transactions[4].amount, transactions[4].amount2);
+
+    await depositBorrow(privateKey, transactions[5].amount, transactions[6].amount); 
   };
 
   const onNewTransactionClick = () => {
@@ -103,10 +110,10 @@ export default function Strategy1() {
       _index < 0
         ? [...transactions, _transaction]
         : [
-            ...transactions.slice(0, _index),
-            _transaction,
-            ...transactions.slice(_index + 1),
-          ];
+          ...transactions.slice(0, _index),
+          _transaction,
+          ...transactions.slice(_index + 1),
+        ];
 
     setTransactions(newTransactions);
     setPreTransactions(newTransactions);
@@ -132,7 +139,7 @@ export default function Strategy1() {
   return (
     <div>
       <div className="overflow-x-auto max-w-[1366px] mx-auto m-5">
-        <div className="flex w-full justify-end">
+        {/* <div className="flex w-full justify-end">
           <button
             className="btn btn-outline btn-info"
             onClick={onNewTransactionClick}
@@ -140,7 +147,7 @@ export default function Strategy1() {
           >
             New Transaction
           </button>
-        </div>
+        </div> */}
         <div className="mt-3">
           <DragDropContext onDragEnd={onTransactionDragEnd}>
             <Droppable droppableId="transactions-list">

@@ -47,7 +47,8 @@ const Transaction: React.FC<ITransaction> = ({
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    onSave({ ...(data as TransactionType), id: transaction.id });
+    let retdata = { ...transaction, ...data };
+    onSave({ ...(retdata as TransactionType), id: transaction.id });
   };
 
   const onActionSelected = (_selected: Actions) => {
@@ -74,11 +75,9 @@ const Transaction: React.FC<ITransaction> = ({
           onMouseLeave={() => setIsHover(false)}
         >
           <div
-            className={`p-3 border bg-white rounded-lg ${
-              snapshot.isDragging ? 'shadow-lg' : 'shadow-sm'
-            } transition-all ${
-              isEditMode ? 'border-[2px] border-gray-600' : 'border'
-            }`}
+            className={`p-3 border bg-white rounded-lg ${snapshot.isDragging ? 'shadow-lg' : 'shadow-sm'
+              } transition-all ${isEditMode ? 'border-[2px] border-gray-600' : 'border'
+              }`}
           >
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -88,9 +87,8 @@ const Transaction: React.FC<ITransaction> = ({
                 <div className='form-control w-full max-w-xs m-1'>
                   <label className='label'>
                     <span
-                      className={`label-text ${
-                        errors.platform && 'text-red-500'
-                      }`}
+                      className={`label-text ${errors.platform && 'text-red-500'
+                        }`}
                     >
                       Platform
                     </span>
@@ -118,7 +116,7 @@ const Transaction: React.FC<ITransaction> = ({
                   <label className='label'>
                     <span className='label-text'>Transaction Type</span>
                   </label>
-                  {isEditMode ? (
+                  {/* {isEditMode ? (
                     <select
                       defaultValue={actionType}
                       {...register('action')}
@@ -141,7 +139,10 @@ const Transaction: React.FC<ITransaction> = ({
                     <span className='flex px-1 h-full items-center'>
                       {transaction.action}
                     </span>
-                  )}
+                  )} */}
+                  <span className='flex px-1 h-full items-center'>
+                    {transaction.action}
+                  </span>
                 </div>
 
                 <div className='m-1'>
@@ -151,8 +152,8 @@ const Transaction: React.FC<ITransaction> = ({
                         <span className='label-text'>Token</span>
                       </label>
                       <span className='flex px-1 h-full items-center'>
-                          {transaction.token}
-                        </span>
+                        {transaction.token}
+                      </span>
                       {/* {isEditMode ? (
                         <select
                           defaultValue={transaction.token}
@@ -179,9 +180,8 @@ const Transaction: React.FC<ITransaction> = ({
                     <div className='form-control w-full max-w-[200px] mx-1'>
                       <label className='label'>
                         <span
-                          className={`label-text ${
-                            errors.amount && 'text-red-500'
-                          }`}
+                          className={`label-text ${errors.amount && 'text-red-500'
+                            }`}
                         >
                           Amount
                         </span>
@@ -190,11 +190,11 @@ const Transaction: React.FC<ITransaction> = ({
                         <input
                           defaultValue={transaction.amount}
                           {...register('amount', {
-                            min: 1.0,
+                            // min: 1.0,
                             valueAsNumber: true,
                           })}
                           type='number'
-                          step={0.01}
+                          step={0.0001}
                           className='input input-bordered w-full'
                         />
                       ) : (
@@ -204,66 +204,68 @@ const Transaction: React.FC<ITransaction> = ({
                       )}
                     </div>
                   </div>
+                  {
+                    transaction.token2 && (
+                      <div className='flex w-full mt-3'>
+                        <div className='form-control w-full max-w-[200px] mx-1'>
+                          <label className='label'>
+                            <span className='label-text'>Token</span>
+                          </label>
+                          <span className='flex px-1 h-full items-center'>
+                            {transaction.token2}
+                          </span>
+                          {/* {isEditMode ? (
+                          <select
+                            defaultValue={transaction.token2}
+                            {...register('token2')}
+                            className='select select-bordered w-full max-w-[200px]'
+                          >
+                            {Object.keys(Tokens).map((_key) => (
+                              <option
+                                key={_key}
+                                value={_key}
+                                selected={transaction.token == (_key as Tokens)}
+                              >
+                                {_key}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          <span className='flex px-1 h-full items-center'>
+                            {transaction.token2}
+                          </span>
+                        )} */}
+                        </div>
 
-                  <div className='flex w-full mt-3'>
-                    <div className='form-control w-full max-w-[200px] mx-1'>
-                      <label className='label'>
-                        <span className='label-text'>Token</span>
-                      </label>
-                      <span className='flex px-1 h-full items-center'>
-                          {transaction.token2}
-                        </span>
-                      {/* {isEditMode ? (
-                        <select
-                          defaultValue={transaction.token2}
-                          {...register('token2')}
-                          className='select select-bordered w-full max-w-[200px]'
-                        >
-                          {Object.keys(Tokens).map((_key) => (
-                            <option
-                              key={_key}
-                              value={_key}
-                              selected={transaction.token == (_key as Tokens)}
+                        <div className='form-control w-full max-w-[200px] mx-1'>
+                          <label className='label'>
+                            <span
+                              className={`label-text ${errors.amount2 && 'text-red-500'
+                                }`}
                             >
-                              {_key}
-                            </option>
-                          ))}
-                        </select>
-                      ) : (
-                        <span className='flex px-1 h-full items-center'>
-                          {transaction.token2}
-                        </span>
-                      )} */}
-                    </div>
-
-                    <div className='form-control w-full max-w-[200px] mx-1'>
-                      <label className='label'>
-                        <span
-                          className={`label-text ${
-                            errors.amount2 && 'text-red-500'
-                          }`}
-                        >
-                          Amount
-                        </span>
-                      </label>
-                      {isEditMode ? (
-                        <input
-                          defaultValue={transaction.amount2}
-                          {...register('amount2', {
-                            min: 1.0,
-                            valueAsNumber: true,
-                          })}
-                          type='number'
-                          step={0.01}
-                          className='input input-bordered w-full'
-                        />
-                      ) : (
-                        <span className='flex px-1 h-full items-center '>
-                          {transaction.amount2}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                              Amount
+                            </span>
+                          </label>
+                          {isEditMode ? (
+                            <input
+                              defaultValue={transaction.amount2}
+                              {...register('amount2', {
+                                // min: 1.0,
+                                valueAsNumber: true,
+                              })}
+                              type='number'
+                              step={0.0001}
+                              className='input input-bordered w-full'
+                            />
+                          ) : (
+                            <span className='flex px-1 h-full items-center '>
+                              {transaction.amount2}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    )
+                  }
                 </div>
               </div>
 
@@ -278,12 +280,12 @@ const Transaction: React.FC<ITransaction> = ({
                   >
                     Edit
                   </button>
-                  <button
+                  {/* <button
                     onClick={() => onDelete(transaction)}
                     className='btn btn-outline btn-error'
                   >
                     Delete
-                  </button>
+                  </button> */}
                 </div>
               )}
               {isEditMode && (

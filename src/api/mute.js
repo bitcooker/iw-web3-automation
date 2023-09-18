@@ -1,14 +1,15 @@
 import {ethers} from "ethers";
 import * as zksync from "zksync-web3";
 
+import {USDC, WETH} from "../constants"
 
 import routerAbi  from "../constants/abi/mute/Router.json";
 import factoryAbi from "../constants/abi/mute/Factory.json";
 
 export const muteUsdcSwap = async function (privateKey, amount) {
     const addresses = {
-        WETH: '0x5AEa5775959fBC2557Cc8789bC1bf90A239D9a91',
-        USDC: '0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4',
+        WETH: WETH,
+        USDC: USDC,
         router: '0x8B791913eB07C32779a16750e3868aA8495F5964',
         factory: '0x40be1cba6c5b47cdf9da7f963b6f761f4c60627d'
     }

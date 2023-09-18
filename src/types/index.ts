@@ -20,8 +20,8 @@ export type TransactionType = {
     amount: number;
     token: Tokens;
     platform: string;
-    amount2: number;
-    token2: Tokens;
+    amount2?: number;
+    token2?: Tokens;
     contractAddress?: `0x${string}`;
     functionName?: string;
     abi?: Record<string, any>[]

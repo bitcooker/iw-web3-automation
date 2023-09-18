@@ -1,12 +1,14 @@
 import {ethers} from "ethers";
 import * as zksync from "zksync-web3";
+import {USDC, WETH} from "../constants"
 
 import classicPoolFactoryAbi from '../constants/abi/SyncSwap/SyncSwapClassicPoolFactoryABI.json'
 import classicPoolAbi from "../constants/abi/SyncSwap/SyncSwapClassicPool.json";
 import routerAbi from "../constants/abi/SyncSwap/SyncSwapRouterABI.json";
+import WETHAbi from "../constants/abi/WETHAbi.json"
 
-const wETHAddress = "0x5aea5775959fbc2557cc8789bc1bf90a239d9a91";
-const usdcAddress = "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4";
+const wETHAddress = WETH;
+const usdcAddress = USDC;
 const routerAddress = "0x2da10A1e27bF85cEdD8FFb1AbBe97e53391C0295";
 const classicPoolFactoryAddress = "0xf2DAd89f2788a8CD54625C60b55cD3d2D0ACa7Cb";
 
@@ -92,7 +94,15 @@ export const syncUsdcSwap = async function (privateKey, amount) {
 export const addliquidity = async function (privateKey, amount1, amount2) {
   const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider)
 
-  const wETHContract = new zksync.Contract(wETHAddress, zksync.utils.IERC20, signer);
+  const wETHContract = new zksync.Contract(wETHAddress, WETHAbi, signer);
+  const wethDeposit = await wETHContract.deposit(
+    {
+      value: inputAmountETH,
+      // gasLimit: 10000000
+    }
+  );
+  await wethDeposit.wait();
+  console.log(wethDeposit.hash);
   const approveWETH = await wETHContract.approve(routerAddress, ethers.utils.parseEther(amount1.toString()));
   await approveWETH.wait();
     
