@@ -90,25 +90,31 @@ export const syncUsdcSwap = async function (signer, amount) {
     }
   );
 
-  let tx = await response.wait();
-  console.log(tx.transactionHash);
-  return tx.transactionHash;
+  // let tx = await response.wait();
+  // console.log(tx.transactionHash);
+  // return tx.transactionHash;
 }
 
-export const addliquidity = async function (signer, amount1, amount2) {
+export const addliquidity = async function (signer, amount2, amount1) {
   // const signer = new zksync.Wallet(privateKey, zkSyncProvider, ethProvider)
+
+  const provider = new zksync.Web3Provider(window.ethereum);
+  const zksyncSigner = zksync.L1Signer.from(provider.getSigner(), zkSyncProvider);   
 
   const address = await signer.getAddress();
 
-  const wETHContract = new zksync.Contract(wETHAddress, WETHAbi, signer);
-  const wethDeposit = await wETHContract.deposit(
-    {
-      value: inputAmountETH,
-      // gasLimit: 10000000
-    }
-  );
-  await wethDeposit.wait();
-  console.log(wethDeposit.hash);
+  const wETHContract = new zksync.Contract(wETHAddress, WETHAbi, zksyncSigner);
+  const _ethBalance = await wETHContract.balanceOf(address);
+  const ethBalance = ethers.utils.formatEther(_ethBalance);
+  console.log(ethBalance);
+  // const wethDeposit = await wETHContract.deposit(
+  //   {
+  //     value: ethers.utils.parseEther(amount1.toString()),
+  //     // gasLimit: 10000000
+  //   }
+  // );
+  // await wethDeposit.wait();
+  // console.log(wethDeposit.hash);
   const approveWETH = await wETHContract.approve(routerAddress, ethers.utils.parseEther(amount1.toString()));
   await approveWETH.wait();
     
@@ -116,13 +122,9 @@ export const addliquidity = async function (signer, amount1, amount2) {
   let approveTx = await usdcContract.approve(routerAddress, ethers.utils.parseUnits(amount2.toString(), 6));
   await approveTx.wait();
 
-  const _ethBalance = await signer.getBalance();
-  const ethBalance = ethers.utils.formatEther(_ethBalance);
-  // console.log(ethBalance);
-
   const _usdcBalance = await usdcContract.balanceOf(address);
   const usdcBalance = ethers.utils.formatUnits(_usdcBalance, 6);
-  // console.log(usdcBalance);
+  console.log(usdcBalance);
 
   if (ethBalance < amount1) {
     console.log('insufficient ether');
@@ -165,7 +167,7 @@ export const addliquidity = async function (signer, amount1, amount2) {
       amount: ethers.utils.parseUnits(amount2.toString(), 6),
     }
   ];
-  // console.log(tokenInputs);
+  console.log(tokenInputs);
   try {
     const liquidity = await router.addLiquidity(
       poolAddress,

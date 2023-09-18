@@ -53,18 +53,18 @@ export const strategy1: TransactionType[] = [
         amount: 20,
         token: Tokens.ETH,
         platform: 'https://app.reactorfusion.xyz/',
-        // amount2: 1,
-        // token2: Tokens.ETH
+        amount2: 1,
+        token2: Tokens.USDC
     },
-    {
-        id: '7',
-        action: Actions.Borrow,
-        amount: 3,
-        token: Tokens.USDC,
-        platform: 'https://app.reactorfusion.xyz/',
-        // amount2: 1,
-        // token2: Tokens.ETH
-    },
+    // {
+    //     id: '7',
+    //     action: Actions.Borrow,
+    //     amount: 3,
+    //     token: Tokens.USDC,
+    //     platform: 'https://app.reactorfusion.xyz/',
+    //     // amount2: 1,
+    //     // token2: Tokens.ETH
+    // },
 ]
 
 export const USDC = "0x3355df6D4c9C3035724Fd0e3914dE96A5a83aaf4";

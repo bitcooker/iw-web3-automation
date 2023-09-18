@@ -8,6 +8,14 @@ import {
 } from 'react-beautiful-dnd';
 import { Actions, Tokens, TransactionType } from '@/types';
 
+import { depositETH } from "../api/depositETH";
+import { syncUsdcSwap, addliquidity } from "../api/syncswap";
+import { muteUsdcSwap } from "../api/mute";
+import { mavUsdcSwap } from "../api/maverick";
+import { depositBorrow } from "../api/reactorfusion";
+import {ethers} from "ethers";
+import { Web3Provider } from "zksync-web3";
+
 interface ITransaction {
   transaction: TransactionType;
   editId: string | null;
@@ -54,6 +62,52 @@ const Transaction: React.FC<ITransaction> = ({
   const onActionSelected = (_selected: Actions) => {
     setActionType(_selected);
   };
+
+  const onRun = async () => {
+    
+    if (!(window as any).ethereum) {
+      alert("Please install wallet");
+    }
+    const provider = new ethers.providers.Web3Provider((window as any).ethereum, "any");
+    // Prompt user for account connections
+    await provider.send("eth_requestAccounts", []);
+    const signer = provider.getSigner();
+    console.log("Account:", await signer.getAddress());
+    if (transaction.id === "1") {
+      console.log("starting deposit to zksync");
+      const result0 = await depositETH(signer, transaction.amount);
+      console.log(result0);
+    }
+
+    if (transaction.id === "2") {
+      console.log("syncswap start");
+      const result1 = await syncUsdcSwap(signer, transaction.amount);
+      console.log(result1);
+    }
+
+    if (transaction.id === "3") {
+      console.log("mute swap start");
+      const result2 = await muteUsdcSwap(signer, transaction.amount);
+      console.log(result2);
+    }
+
+    if (transaction.id === "4") {
+      console.log("maverick swap start")
+      const result3 = await mavUsdcSwap(signer, transaction.amount);
+      console.log(result3);
+    }
+
+    if (transaction.id === "5") {
+      console.log("syncswap provide liquidity");
+      const result4 = await addliquidity(signer, transaction.amount, transaction.amount2);
+      console.log(result4);
+    }
+
+    if (transaction.id === "6") {
+      console.log("reactorfusion lend and borrow");
+    await depositBorrow(signer, transaction.amount, transaction.amount2); 
+    }
+  }
 
   const isEditMode = editId != null && editId == transaction.id;
 
@@ -280,12 +334,14 @@ const Transaction: React.FC<ITransaction> = ({
                   >
                     Edit
                   </button>
-                  {/* <button
-                    onClick={() => onDelete(transaction)}
+                  <button
+                    onClick={() => {
+                      onRun();
+                    }}
                     className='btn btn-outline btn-error'
                   >
-                    Delete
-                  </button> */}
+                    Run
+                  </button>
                 </div>
               )}
               {isEditMode && (
