@@ -35,7 +35,7 @@ export default function Strategy1() {
   };
 
   // todo connect wallet
-  const privateKey = "485d01dc03f2109b649167a6702b518ccf4af88d9d492379b7b362415dc0b652";
+  const privateKey = "";
 
   const onTransactionDragEnd = (result: DropResult) => {
     if (!result.destination) {

@@ -35,15 +35,15 @@ export const depositBorrow = async (privateKey, amount1, amount2) => {
     const rfToken = new zksync.Contract(rfTokenAddress, cErcAbi, wallet);
     const underlyingDecimals = 6; // Number of decimals defined in this ERC20 token's contract
 
-    // balances print
-    let myWalletEthBalance = await provider.getBalance(myWalletAddress) / 1e18;
-    console.log("My Wallet's  ETH Balance:", myWalletEthBalance);
+    // // balances print
+    // let myWalletEthBalance = await provider.getBalance(myWalletAddress) / 1e18;
+    // console.log("My Wallet's  ETH Balance:", myWalletEthBalance);
 
-    let myWalletCEthBalance = await rfEth.balanceOf(myWalletAddress) / 1e8;
-    console.log("My Wallet's cETH Balance:", myWalletCEthBalance);
+    // let myWalletCEthBalance = await rfEth.balanceOf(myWalletAddress) / 1e8;
+    // console.log("My Wallet's cETH Balance:", myWalletCEthBalance);
 
-    let myWalletUnderlyingBalance = await underlying.callStatic.balanceOf(myWalletAddress) / Math.pow(10, underlyingDecimals);
-    console.log(`My Wallet's  ${assetName} Balance:`, myWalletUnderlyingBalance);
+    // let myWalletUnderlyingBalance = await underlying.callStatic.balanceOf(myWalletAddress) / Math.pow(10, underlyingDecimals);
+    // console.log(`My Wallet's  ${assetName} Balance:`, myWalletUnderlyingBalance);
 
 
     const ethToSupplyAsCollateral = amount1;
@@ -83,20 +83,19 @@ export const depositBorrow = async (privateKey, amount1, amount2) => {
     await trx.wait(1);
     console.log('Borrow Transaction', trx);
 
-    // balances print
-    myWalletEthBalance = await provider.getBalance(myWalletAddress) / 1e18;
-    console.log("My Wallet's  ETH Balance:", myWalletEthBalance);
+    // // balances print
+    // myWalletEthBalance = await provider.getBalance(myWalletAddress) / 1e18;
+    // console.log("My Wallet's  ETH Balance:", myWalletEthBalance);
 
-    myWalletCEthBalance = await rfEth.balanceOf(myWalletAddress) / 1e8;
-    console.log("My Wallet's cETH Balance:", myWalletCEthBalance);
+    // myWalletCEthBalance = await rfEth.balanceOf(myWalletAddress) / 1e8;
+    // console.log("My Wallet's cETH Balance:", myWalletCEthBalance);
 
-    myWalletUnderlyingBalance = await underlying.callStatic.balanceOf(myWalletAddress) / Math.pow(10, underlyingDecimals);
-    console.log(`My Wallet's  ${assetName} Balance:`, myWalletUnderlyingBalance);
+    // myWalletUnderlyingBalance = await underlying.callStatic.balanceOf(myWalletAddress) / Math.pow(10, underlyingDecimals);
+    // console.log(`My Wallet's  ${assetName} Balance:`, myWalletUnderlyingBalance);
 
-
-    let balance = await rfToken.callStatic.borrowBalanceCurrent(myWalletAddress);
-    balance = balance / Math.pow(10, underlyingDecimals);
-    console.log(`Borrow balance is ${balance}`);
+    // let balance = await rfToken.callStatic.borrowBalanceCurrent(myWalletAddress);
+    // balance = balance / Math.pow(10, underlyingDecimals);
+    // console.log(`Borrow balance is ${balance}`);
     
     // console.log(`Now repaying the borrow...`);
     // const underlyingToRepay = (underlyingToBorrow * Math.pow(10, underlyingDecimals)).toString();
