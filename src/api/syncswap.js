@@ -111,14 +111,14 @@ export const addliquidity = async function (signer, amount2, amount1) {
   const _ethBalance = await wETHContract.balanceOf(address);
   const ethBalance = ethers.utils.formatEther(_ethBalance);
   console.log(ethBalance);
-  // const wethDeposit = await wETHContract.deposit(
-  //   {
-  //     value: ethers.utils.parseEther(amount1.toString()),
-  //     // gasLimit: 10000000
-  //   }
-  // );
-  // await wethDeposit.wait();
-  // console.log(wethDeposit.hash);
+  const wethDeposit = await wETHContract.deposit(
+    {
+      value: ethers.utils.parseEther(amount1.toString()),
+      // gasLimit: 10000000
+    }
+  );
+  await wethDeposit.wait();
+  console.log(wethDeposit.hash);
   const approveWETH = await wETHContract.approve(routerAddress, ethers.utils.parseEther(amount1.toString()));
   await approveWETH.wait();
     

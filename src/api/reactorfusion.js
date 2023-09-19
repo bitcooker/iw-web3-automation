@@ -53,35 +53,35 @@ export const depositBorrow = async (wallet, amount1, amount2) => {
         value: (ethToSupplyAsCollateral * 1e18).toString()
     });
 
-    console.log('\nEntering market (via Comptroller contract) for ETH (as collateral)...');
-    let markets = [rfEthAddress]; // This is the cToken contract(s) for your collateral
-    let enterMarkets = await comptroller.enterMarkets(markets);
-    await enterMarkets.wait(1);
+    // console.log('\nEntering market (via Comptroller contract) for ETH (as collateral)...');
+    // let markets = [rfEthAddress]; // This is the cToken contract(s) for your collateral
+    // let enterMarkets = await comptroller.enterMarkets(markets);
+    // await enterMarkets.wait(1);
 
-    console.log('Calculating your liquid assets in the protocol...');
-    let { 1: liquidity } = await comptroller.callStatic.getAccountLiquidity(myWalletAddress);
-    liquidity = liquidity / 1e18;
+    // console.log('Calculating your liquid assets in the protocol...');
+    // let { 1: liquidity } = await comptroller.callStatic.getAccountLiquidity(myWalletAddress);
+    // liquidity = liquidity / 1e18;
 
-    console.log('Fetching rfETH collateral factor...');
-    let { 1: collateralFactor } = await comptroller.callStatic.markets(rfEthAddress);
-    collateralFactor = (collateralFactor / 1e18) * 100; // Convert to percent
+    // console.log('Fetching rfETH collateral factor...');
+    // let { 1: collateralFactor } = await comptroller.callStatic.markets(rfEthAddress);
+    // collateralFactor = (collateralFactor / 1e18) * 100; // Convert to percent
 
 
-    console.log(`Fetching borrow rate per block for ${assetName} borrowing...`);
-    let borrowRate = await rfToken.callStatic.borrowRatePerBlock();
-    borrowRate = borrowRate / Math.pow(10, underlyingDecimals);
+    // console.log(`Fetching borrow rate per block for ${assetName} borrowing...`);
+    // let borrowRate = await rfToken.callStatic.borrowRatePerBlock();
+    // borrowRate = borrowRate / Math.pow(10, underlyingDecimals);
 
-    console.log(`\nYou have ${liquidity} of LIQUID assets (worth of USD) pooled in the protocol.`);
-    console.log(`You can borrow up to ${collateralFactor}% of your TOTAL collateral supplied to the protocol as ${assetName}.`);
-    console.log(`NEVER borrow near the maximum amount because your account will be instantly liquidated.`);
-    console.log(`\nYour borrowed amount INCREASES (${borrowRate} * borrowed amount) ${assetName} per block.\nThis is based on the current borrow rate.\n`);
+    // console.log(`\nYou have ${liquidity} of LIQUID assets (worth of USD) pooled in the protocol.`);
+    // console.log(`You can borrow up to ${collateralFactor}% of your TOTAL collateral supplied to the protocol as ${assetName}.`);
+    // console.log(`NEVER borrow near the maximum amount because your account will be instantly liquidated.`);
+    // console.log(`\nYour borrowed amount INCREASES (${borrowRate} * borrowed amount) ${assetName} per block.\nThis is based on the current borrow rate.\n`);
 
-    const underlyingToBorrow = amount2;
-    console.log(`Now attempting to borrow ${underlyingToBorrow} ${assetName}...`);
-    const scaledUpBorrowAmount = (underlyingToBorrow * Math.pow(10, underlyingDecimals)).toString();
-    const trx = await rfToken.borrow(scaledUpBorrowAmount);
-    await trx.wait(1);
-    console.log('Borrow Transaction', trx);
+    // const underlyingToBorrow = amount2;
+    // console.log(`Now attempting to borrow ${underlyingToBorrow} ${assetName}...`);
+    // const scaledUpBorrowAmount = (underlyingToBorrow * Math.pow(10, underlyingDecimals)).toString();
+    // const trx = await rfToken.borrow(scaledUpBorrowAmount);
+    // await trx.wait(1);
+    // console.log('Borrow Transaction', trx);
 
     // // balances print
     // myWalletEthBalance = await provider.getBalance(myWalletAddress) / 1e18;
