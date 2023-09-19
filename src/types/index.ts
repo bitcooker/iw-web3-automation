@@ -2,7 +2,7 @@ export enum Actions {
     Buy = "Buy",
     Deposit = "Deposit",
     Liquidity = "Liquidity",
-    Lend = "Lend",
+    Lend = "Lend & Borrow",
     Borrow = "Borrow",
     Bridge = "Bridge",
     Nft = "Nft"

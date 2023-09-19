@@ -13,7 +13,7 @@ import { syncUsdcSwap, addliquidity } from "../api/syncswap";
 import { muteUsdcSwap } from "../api/mute";
 import { mavUsdcSwap } from "../api/maverick";
 import { depositBorrow } from "../api/reactorfusion";
-import {ethers} from "ethers";
+import { ethers } from "ethers";
 import { Web3Provider } from "zksync-web3";
 
 interface ITransaction {
@@ -64,7 +64,6 @@ const Transaction: React.FC<ITransaction> = ({
   };
 
   const onRun = async () => {
-    
     if (!(window as any).ethereum) {
       alert("Please install wallet");
     }
@@ -77,35 +76,65 @@ const Transaction: React.FC<ITransaction> = ({
       console.log("starting deposit to zksync");
       const result0 = await depositETH(signer, transaction.amount);
       console.log(result0);
+      if (!result0) {
+        alert("transaction failed");
+      }
+      else {
+        alert(`Successful! view on explorer: https://explorer.zksync.io/tx/${result0}`);
+      }
     }
 
     if (transaction.id === "2") {
       console.log("syncswap start");
       const result1 = await syncUsdcSwap(signer, transaction.amount);
       console.log(result1);
+      if (!result1) {
+        alert("transaction failed");
+      }
+      else {
+        alert(`Successful! view on explorer: https://explorer.zksync.io/tx/${result1}`);
+      }
     }
 
     if (transaction.id === "3") {
       console.log("mute swap start");
       const result2 = await muteUsdcSwap(signer, transaction.amount);
       console.log(result2);
+      if (!result2) {
+        alert("transaction failed");
+      }
+      else {
+        alert(`Successful! view on explorer: https://explorer.zksync.io/tx/${result2}`);
+      }
     }
 
     if (transaction.id === "4") {
       console.log("maverick swap start")
       const result3 = await mavUsdcSwap(signer, transaction.amount);
       console.log(result3);
+      if (!result3) {
+        alert("transaction failed");
+      }
+      else {
+        alert(`Successful! view on explorer: https://explorer.zksync.io/tx/${result3}`);
+      }
     }
 
     if (transaction.id === "5") {
       console.log("syncswap provide liquidity");
       const result4 = await addliquidity(signer, transaction.amount, transaction.amount2);
       console.log(result4);
+      if (!result4) {
+        alert("transaction failed");
+      }
+      else {
+        alert(`Successful! view on explorer: https://explorer.zksync.io/tx/${result4}`);
+      }
     }
 
     if (transaction.id === "6") {
       console.log("reactorfusion lend and borrow");
-    await depositBorrow(signer, transaction.amount, transaction.amount2); 
+      await depositBorrow(signer, transaction.amount, transaction.amount2);
     }
   }
 

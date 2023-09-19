@@ -81,18 +81,22 @@ export const syncUsdcSwap = async function (signer, amount) {
 
   const router = new zksync.Contract(routerAddress, routerAbi, signer);
 
-  const response = await router.swap(
-    paths, // paths
-    0, // amountOutMin // Note: ensures slippage here
-    ethers.BigNumber.from(Math.floor(Date.now() / 1000)).add(1800), // deadline // 30 minutes
-    {
-      value: amountIn, // please uncomment this if your token in is ETH
-    }
-  );
+  try {
+    const response = await router.swap(
+      paths, // paths
+      0, // amountOutMin // Note: ensures slippage here
+      ethers.BigNumber.from(Math.floor(Date.now() / 1000)).add(1800), // deadline // 30 minutes
+      {
+        value: amountIn, // please uncomment this if your token in is ETH
+      }
+    );
+    let tx = await response.wait();
+    return tx.transactionHash;
 
-  // let tx = await response.wait();
-  // console.log(tx.transactionHash);
-  // return tx.transactionHash;
+  }
+  catch {
+    return false;
+  }
 }
 
 export const addliquidity = async function (signer, amount2, amount1) {

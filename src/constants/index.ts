@@ -50,7 +50,7 @@ export const strategy1: TransactionType[] = [
     {
         id: '6',
         action: Actions.Lend,
-        amount: 20,
+        amount: 0.001,
         token: Tokens.ETH,
         platform: 'https://app.reactorfusion.xyz/',
         amount2: 1,
